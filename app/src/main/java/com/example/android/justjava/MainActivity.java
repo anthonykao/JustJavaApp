@@ -28,8 +28,13 @@ public class MainActivity extends ActionBarActivity {
         display(numberOfCoffees);
         displayPrice(numberOfCoffees * 5);
         */
+        /*
         display(quantity);
         displayPrice(quantity * 5);
+        */
+        String priceMessage = "You owe $" + (quantity * 5) + " for " + quantity + " cups of coffee.";
+        priceMessage = priceMessage + " Thank you!";
+        displayMessage(priceMessage);
     }
 
     /**
@@ -68,4 +73,13 @@ public class MainActivity extends ActionBarActivity {
         TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
         priceTextView.setText(java.text.NumberFormat.getCurrencyInstance().format(number));
     }
+
+    /**
+     * This method displays the given text on the screen.
+     */
+    private void displayMessage(String message) {
+        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
+        priceTextView.setText(message);
+    }
 }
+
