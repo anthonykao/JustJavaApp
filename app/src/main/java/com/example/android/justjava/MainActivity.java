@@ -3,6 +3,7 @@ package com.example.android.justjava;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 /**
@@ -18,6 +19,26 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
     }
 
+    /**
+     * Calculates the price of the order.
+     *
+     * @param quantity is the number of cups of coffee ordered
+     */
+    private int calculatePrice() {
+        int price = quantity * 10;
+        return price;
+    }
+
+    /* Creates order summary*/
+    public String createOrderSummary(int price, boolean hasWhippedCream, boolean hasChocolate){
+        String priceMessage = "Name: Derp Herp";
+        priceMessage += "\nAdd whipped cream? " + hasWhippedCream;
+        priceMessage += "\nAdd chocolate? " + hasChocolate;
+        priceMessage += "\nQuantity: " + quantity;
+        priceMessage += "\nTotal: $" + price;
+        priceMessage += "\nThank you!";
+        return priceMessage;
+    }
 
      /* This method is called when the order button is clicked.
      */
@@ -32,17 +53,31 @@ public class MainActivity extends ActionBarActivity {
         display(quantity);
         displayPrice(quantity * 5);
         */
-        String priceMessage = "You owe $" + (quantity * 5) + " for " + quantity + " cups of coffee.";
-        priceMessage = priceMessage + " Thank you!";
+        /*
+        int price = quantity * 5;
+        */
+
+        int price = calculatePrice();
+
+        CheckBox whippedCreamCB = (CheckBox) findViewById(R.id.whippedcream_checkbox);
+        boolean whippedCream = whippedCreamCB.isChecked();
+
+
+        CheckBox chocolateCB = (CheckBox) findViewById(R.id.chocolate_checkbox);
+        boolean chocolate = chocolateCB.isChecked();
+
+        String priceMessage = createOrderSummary(price, whippedCream, chocolate);
+
         displayMessage(priceMessage);
     }
+
 
     /**
      * This method is called when the the plus button is clicked
      */
     public void increment(View view) {
         quantity += 1;
-        display(quantity);
+        displayQuantity(quantity);
     }
 
     /**
@@ -53,33 +88,26 @@ public class MainActivity extends ActionBarActivity {
         if (quantity < 0) {
             quantity = 0;
         }
-        display(quantity);
+        displayQuantity(quantity);
     }
 
 
     /**
      * This method displays the given quantity value on the screen.
      */
-    private void display(int number) {
+    private void displayQuantity(int numberone) {
         TextView quantityTextView = (TextView) findViewById(
                 R.id.quantity_text_view);
-        quantityTextView.setText("" + number);
+        quantityTextView.setText("" + numberone);
     }
 
-    /**
-     * This method displays the given price on the screen.
-     */
-    private void displayPrice(int number) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(java.text.NumberFormat.getCurrencyInstance().format(number));
-    }
 
     /**
      * This method displays the given text on the screen.
      */
     private void displayMessage(String message) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(message);
+        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
+        orderSummaryTextView.setText(message);
     }
 }
 
